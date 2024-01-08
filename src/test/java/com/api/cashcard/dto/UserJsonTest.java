@@ -1,4 +1,4 @@
-package com.api.cashcard;
+package com.api.cashcard.dto;
 
 import com.api.cashcard.dto.User;
 import org.junit.jupiter.api.Test;

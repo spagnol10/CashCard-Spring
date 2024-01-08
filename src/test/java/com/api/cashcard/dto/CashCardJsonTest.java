@@ -1,4 +1,4 @@
-package com.api.cashcard;
+package com.api.cashcard.dto;
 
 import com.api.cashcard.dto.CashCard;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ class CashCardJsonTest {
 
     @Autowired
     private JacksonTester<CashCard> json;
-
 
     @Test
     void cashCardSerializationTest() throws IOException {
