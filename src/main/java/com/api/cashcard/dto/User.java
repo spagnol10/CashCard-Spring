@@ -1,4 +1,6 @@
 package com.api.cashcard.dto;
 
-public record User(Long id, String name, String password) {
+import org.springframework.data.annotation.Id;
+
+public record User(@Id Long id, String name, String password) {
 }
