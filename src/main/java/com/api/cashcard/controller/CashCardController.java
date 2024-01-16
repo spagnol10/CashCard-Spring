@@ -22,12 +22,16 @@ public class CashCardController {
     @GetMapping("/{requestedId}")
     private ResponseEntity<CashCard> findById(@PathVariable Long requestedId) {
         Optional<CashCard> cashCard = cashCardRepository.findById(requestedId);
-
         if (cashCard.isPresent()) {
             return ResponseEntity.ok(cashCard.get());
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping()
+    private ResponseEntity<Iterable<CashCard>> findAll() {
+        return ResponseEntity.ok(cashCardRepository.findAll());
     }
 
     @PostMapping

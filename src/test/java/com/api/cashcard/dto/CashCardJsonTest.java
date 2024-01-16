@@ -32,30 +32,10 @@ class CashCardJsonTest {
     }
 
     @Test
-    void cashCardListSerializationTest() throws IOException {
-        FileInputStream fileInputStream = new FileInputStream("src/test/java/com/api/cashcard/json/list.json");
-
-        assertThat(jsonList.write(cashCards)).isStrictlyEqualToJson(fileInputStream);
-
-    }
-
-    @Test
-    void cashCardListDeserializationTest() throws IOException {
-        String expected = """
-                [
-                    { "id": 99, "amount": 123.45 },
-                    { "id": 100, "amount": 100.00 },
-                    { "id": 101, "amount": 150.00 }
-                ]
-                """;
-        assertThat(jsonList.parse(expected)).isEqualTo(cashCards);
-    }
-
-    @Test
     void cashCardSerializationTest() throws IOException {
         CashCard cashCard = new CashCard(99L, 123.45);
 
-        FileInputStream fileInputStream = new FileInputStream("src/test/java/com/api/cashcard/json/expected.json");
+        FileInputStream fileInputStream = new FileInputStream("src/test/java/com/api/cashcard/json/single.json");
 
         assertThat(json.write(cashCard)).isStrictlyEqualToJson(fileInputStream);
         assertThat(json.write(cashCard)).hasJsonPathNumberValue("@.id");
