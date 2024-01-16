@@ -1,6 +1,5 @@
 package com.api.cashcard.controller;
 
-import com.api.cashcard.repository.CashCardRepository;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Test;
