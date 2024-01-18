@@ -46,6 +46,4 @@ public class SecurityConfig {
                 .build();
         return new InMemoryUserDetailsManager(sarah, hankOwnsNoCards);
     }
-
-
 }
