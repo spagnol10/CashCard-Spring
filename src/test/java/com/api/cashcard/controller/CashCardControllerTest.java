@@ -18,9 +18,7 @@ import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // reset the database after each test
 class CashCardControllerTest {
 
     @Autowired
@@ -182,12 +180,12 @@ class CashCardControllerTest {
         Number id = documentContext.read("$.id");
         Double amount = documentContext.read("$.amount");
 
-        assertThat(id).isNotNull();
+        assertThat(id).isEqualTo(99);
         assertThat(amount).isEqualTo(19.99);
     }
 
     @Test
-    void shouldNotUpdateACashCardThatDoesNotExist(){
+    void shouldNotUpdateACashCardThatDoesNotExist() {
         CashCard cashCardUpdate = new CashCard(null, 19.99, null);
         HttpEntity<CashCard> request = new HttpEntity<>(cashCardUpdate);
         ResponseEntity<Void> response = restTemplate
@@ -197,7 +195,7 @@ class CashCardControllerTest {
     }
 
     @Test
-    void shouldNotUpdateACashCardThatIsOwnedBySomeoneElse(){
+    void shouldNotUpdateACashCardThatIsOwnedBySomeoneElse() {
         CashCard cashCardUserTest = new CashCard(null, 333.00, null);
         HttpEntity<CashCard> request = new HttpEntity<>(cashCardUserTest);
         ResponseEntity<Void> response = restTemplate
@@ -206,6 +204,26 @@ class CashCardControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
+    @Test
+    @DirtiesContext
+    void shouldDeleteAnExistingCashCard() {
+        ResponseEntity<Void> response = restTemplate
+                .withBasicAuth("sarah1", "abc123")
+                .exchange("/cashcards/99", HttpMethod.DELETE, null, Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
-    
+        ResponseEntity<String> getResponse = restTemplate
+                .withBasicAuth("sarah1", "abc123")
+                .getForEntity("/cashcards/99", String.class);
+        assertThat(getResponse.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void shouldNotDeleteACashCardThatDoesNotExist() {
+        ResponseEntity<Void> response = restTemplate
+                .withBasicAuth("sarah1", "abc123")
+                .exchange("/cashcards/999", HttpMethod.DELETE, null, Void.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
 }
