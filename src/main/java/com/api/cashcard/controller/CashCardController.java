@@ -82,8 +82,4 @@ public class CashCardController {
 
     }
 
-    @PostMapping("/opa")
-    private String response(){
-        return "Hello Word";
-    }
 }
