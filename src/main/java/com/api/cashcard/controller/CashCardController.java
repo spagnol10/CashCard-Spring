@@ -81,4 +81,9 @@ public class CashCardController {
         return ResponseEntity.notFound().build();
 
     }
+
+    @PostMapping("/opa")
+    private String response(){
+        return "Hello Word";
+    }
 }
